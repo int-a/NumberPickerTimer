@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements OnClickListener {
         startButton.setOnClickListener(this);
         text = (TextView) this.findViewById(R.id.timer);
 
-        //Create NumberPickers(github is working if you see this)
+        //Create NumberPickers
         numberPicker1 = (NumberPicker) findViewById(R.id.numberPicker1);
         numberPicker2 = (NumberPicker) findViewById(R.id.numberPicker2);
 
