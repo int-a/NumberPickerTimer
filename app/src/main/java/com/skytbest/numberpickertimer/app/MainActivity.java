@@ -14,7 +14,6 @@ import android.widget.NumberPicker;
 import android.widget.NumberPicker.Formatter;
 import java.lang.reflect.*;
 
-
 public class MainActivity extends Activity implements OnClickListener {
 
     private static final String TAG = "Number Picker Timer";
@@ -22,7 +21,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private boolean timerHasStarted = false;
     private Button startButton;
     public TextView text;
-    private final long interval = 1 * 1000;
+    private final long INTERVAL = 1000;
 
     NumberPicker numberPicker1, numberPicker2;
 
@@ -55,11 +54,13 @@ public class MainActivity extends Activity implements OnClickListener {
         long startTime = (numberPicker1.getValue() * 60) * 1000 + numberPicker2.getValue() * 1000;
         Log.i(TAG, "Start time: " + startTime + "");
 
-        //Create CountDownTimer with values from NumberPickers
-        countDownTimer = new MyCountDownTimer(startTime, interval);
-        text.setText(text.getText() + String.valueOf(startTime / 1000));    //should be removed
 
         if(!timerHasStarted) {
+
+            //Create CountDownTimer with values from NumberPickers
+            countDownTimer = new MyCountDownTimer(startTime, INTERVAL);
+            text.setText(text.getText() + String.valueOf(startTime / 1000));    //should be removed
+
             countDownTimer.start();
             timerHasStarted = true;
 
@@ -69,8 +70,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
             startButton.setText(R.string.stop);
         } else {
-            //countDownTimer.cancel();
-            countDownTimer = countDownTimer.pause();
+            countDownTimer.cancel();
+            //countDownTimer = countDownTimer.pause();
             timerHasStarted = false;
 
             //Re-enable the NumberPickers after 'Start' is pressed
@@ -146,8 +147,8 @@ public class MainActivity extends Activity implements OnClickListener {
                 changeValueByOne(numberPicker2, false);
             }
 
-            text.setText(R.string.timeUp) ;
-            startButton.setText(R.string.restart);
+            text.setText(R.string.timeUp);
+            startButton.setText(R.string.start);
 
             //re-enable the NumberPickers once countdown is done
             numberPicker1.setEnabled(true);
@@ -182,11 +183,6 @@ public class MainActivity extends Activity implements OnClickListener {
             this.millisUntilFinished = millisUntilFinished;
         }
 
-        public MyCountDownTimer pause(){
-            this.cancel();
-
-            return new MyCountDownTimer(millisUntilFinished, interval);
-        }
     }
 
     //This formatter will be used to make numberPicker2 two digits wide even when < 10
